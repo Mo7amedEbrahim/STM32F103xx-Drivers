@@ -95,10 +95,10 @@ ES_t GPIO_SetPinValue(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8value){
         case GPIO_PORTA:
         if(pin >=0 && pin <=15){
             if(Copy_u8value == HIGH){
-                SET_BIT(GPIOA->ODR , pin);
+                GPIOA->BSRR = (1 << pin);
             }
             else if(Copy_u8value == LOW){
-                CLR_BIT(GPIOA->ODR , pin);
+                GPIOA->BRR = (1 << pin);
             }
             Local_enumState = ES_OK;
         }
@@ -109,10 +109,10 @@ ES_t GPIO_SetPinValue(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8value){
         case GPIO_PORTB:
         if(pin >=0 && pin <=15){
             if(Copy_u8value == HIGH){
-                SET_BIT(GPIOB->ODR , pin);
+                GPIOB->BSRR = (1 << pin);
             }
             else if(Copy_u8value == LOW){
-                CLR_BIT(GPIOB->ODR , pin);
+                GPIOB->BRR = (1 << pin);
             }
             Local_enumState = ES_OK;
         }
@@ -123,10 +123,10 @@ ES_t GPIO_SetPinValue(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8value){
         case GPIO_PORTC:
         if(pin >=0 && pin <=15){
             if(Copy_u8value == HIGH){
-                SET_BIT(GPIOC->ODR , pin);
+                GPIOC->BSRR = (1 << pin);
             }
             else if(Copy_u8value == LOW){
-                CLR_BIT(GPIOC->ODR , pin);
+                GPIOC->BRR = (1 << pin);
             }
             Local_enumState = ES_OK;
         }
@@ -183,27 +183,19 @@ ES_t GPIO_SetHalfPortMode(GPIO_HALF_PORT_t port, u8 Copy_u8mode){
     u8 Local_u8Counter = 0;
     switch(port){
         case GPIO_PORTA_LOW:
-        for(Local_u8Counter = 0; Local_u8Counter <= 7 ; Local_u8Counter++){
-            GPIO_SetPinMode(GPIO_PORTA, Local_u8Counter, Copy_u8mode);
-        }
+        GPIOA->CRL = (Copy_u8mode * 0x11111111);
         Local_enumState = ES_OK;
         break;
         case GPIO_PORTA_HIGH:
-        for(Local_u8Counter = 8; Local_u8Counter <= 15 ; Local_u8Counter++){
-            GPIO_SetPinMode(GPIO_PORTA, Local_u8Counter, Copy_u8mode);
-        }
+        GPIOA->CRH = (Copy_u8mode * 0x11111111);
         Local_enumState = ES_OK;
         break;
         case GPIO_PORTB_LOW:
-        for(Local_u8Counter = 0; Local_u8Counter <= 7 ; Local_u8Counter++){
-            GPIO_SetPinMode(GPIO_PORTB, Local_u8Counter, Copy_u8mode);
-        }
+        GPIOB->CRL = (Copy_u8mode * 0x11111111);
         Local_enumState = ES_OK;
         break;
         case GPIO_PORTB_HIGH:
-        for(Local_u8Counter = 8; Local_u8Counter <= 15 ; Local_u8Counter++){
-            GPIO_SetPinMode(GPIO_PORTB, Local_u8Counter, Copy_u8mode);
-        }
+        GPIOB->CRH = (Copy_u8mode * 0x11111111);
         Local_enumState = ES_OK;
         break;
         default:
@@ -297,4 +289,3 @@ ES_t GPIO_LockPin(GPIO_PORT_t port, GPIO_LOW_PINS_t pin){
     }
     return Local_enumState;
 }
-

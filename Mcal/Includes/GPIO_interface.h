@@ -63,12 +63,14 @@ typedef enum{
 //Main APIs
 ES_t GPIO_SetPinMode(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8mode);
 //TODO:Edit GPIO_SetPinValue and use BSRR and BRR for better performance and atomicity
+    //DONE  5 / 7 / 2023
 ES_t GPIO_SetPinValue(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8value);
 ES_t GPIO_GetPinValue(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 *Copy_pu8value);
 ES_t GPIO_SetHalfPortMode(GPIO_HALF_PORT_t port, u8 Copy_u8mode);
 ES_t GPIO_SetHalfPortValue(GPIO_HALF_PORT_t port, u8 Copy_u8value);
 //TODO: Edit GPIO_Lock pin as it is not working
 ES_t GPIO_LockPin(GPIO_PORT_t port, GPIO_LOW_PINS_t pin);
+ES_t GPIO_SetPortMode(GPIO_PORT_t port, u8 Copy_u8mode);
 
 
 
