@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "std_types.h": "c",
+        "bit_math.h": "c",
+        "rcc_interface.h": "c",
+        "rcc_private.h": "c",
+        "rcc_config.h": "c",
+        "gpio_interface.h": "c",
+        "error_status.h": "c",
+        "sevenseg.h": "c"
+    }
+}
