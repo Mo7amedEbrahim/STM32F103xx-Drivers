@@ -7,6 +7,7 @@
         "rcc_config.h": "c",
         "gpio_interface.h": "c",
         "error_status.h": "c",
-        "sevenseg.h": "c"
+        "sevenseg.h": "c",
+        "exti_config.h": "c"
     }
 }

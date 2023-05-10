@@ -65,6 +65,17 @@ typedef struct{
 
 #define SCB ((volatile SCB_Type *) 0xE000ED00 )
 
+/**********************************************/
+typedef struct{
+    volatile u32 IMR;
+    volatile u32 EMR;
+    volatile u32 RTSR;
+    volatile u32 FTSR;
+    volatile u32 SWIER;
+    volatile u32 PR;
+}EXTI_t;
+#define EXTI ((EXTI_t *)(0x40010400))
+
 
 
 
