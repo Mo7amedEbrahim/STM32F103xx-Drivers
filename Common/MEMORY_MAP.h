@@ -34,6 +34,39 @@ typedef struct{
 #define GPIOC ((GPIO_t *)(0x40011000))
 
 /**********************************************/
+/*  NVIC Registers  */
+#define NVIC_ISER   ((volatile u32*) 0xE000E100)
+#define NVIC_ICER   ((volatile u32*) 0xE000E180)
+#define NVIC_ISPR   ((volatile u32*) 0xE000E200)
+#define NVIC_ICPR   ((volatile u32*) 0xE000E280)
+#define NVIC_IABR   ((volatile u32*) 0xE000E300)
+#define NVIC_IPR    ((volatile u8 *) 0xE000E400)
+
+/**********************************************/
+typedef struct{
+
+	volatile u32 CPUID;
+	volatile u32 ICSR;
+	volatile u32 VTOR;
+	volatile u32 AIRCR;
+	volatile u32 SCR;
+	volatile u32 CCR;
+	volatile u32 SHPR1;
+	volatile u32 SHPR2;
+	volatile u32 SHPR3;
+	volatile u32 SHCSR;
+	volatile u32 CFSR;
+	volatile u32 HFSR;
+	volatile u32 RESERVED;
+	volatile u32 MMFAR;
+	volatile u32 BFAR;
+
+}SCB_Type;
+
+#define SCB ((volatile SCB_Type *) 0xE000ED00 )
+
+
+
 
 
 

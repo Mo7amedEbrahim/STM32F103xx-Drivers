@@ -3,6 +3,7 @@
 #include "../Common/ERROR_STATUS.h"
 #include "../Mcal/Includes/RCC_interface.h"
 #include "../Mcal/Includes/GPIO_interface.h"
+#include "../Mcal/Includes/NVIC_interface.h"
 #include "../Hal/Includes/SevenSeg.h"
 
 int main(){
@@ -10,8 +11,7 @@ int main(){
 	RCC_Init();
 	RCC_EnablePeripheralClock(RCC_APB2, RCC_IOPA );
 
-		GPIO_SetHalfPortMode(GPIO_PORTA_LOW,GPIO_OUTPUT_10MHZ_PP);
-		GPIO_SetHalfPortMode(GPIO_PORTB_LOW,GPIO_OUTPUT_2MHZ_PP);
+	NVIC_SetIntPriority(NVIC_EXTI0,1,2,GROUP5);
 
 	return 0;
 }
