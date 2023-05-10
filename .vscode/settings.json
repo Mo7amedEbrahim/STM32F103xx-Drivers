@@ -8,6 +8,8 @@
         "gpio_interface.h": "c",
         "error_status.h": "c",
         "sevenseg.h": "c",
-        "exti_config.h": "c"
+        "exti_config.h": "c",
+        "afio_config.h": "c",
+        "afio_interface.h": "c"
     }
 }

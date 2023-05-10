@@ -33,6 +33,16 @@ typedef struct{
 #define GPIOB ((GPIO_t *)(0x40010C00))
 #define GPIOC ((GPIO_t *)(0x40011000))
 
+/*  AFIO Registers  */
+typedef struct{
+    volatile u32 EVCR;
+    volatile u32 MAPR;
+    volatile u32 EXTICR[4];
+    volatile u32 MAPR2;
+}AFIO_t;
+
+#define AFIO ((AFIO_t *)(0x40010000))
+
 /**********************************************/
 /*  NVIC Registers  */
 #define NVIC_ISER   ((volatile u32*) 0xE000E100)

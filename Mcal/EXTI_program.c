@@ -11,6 +11,12 @@
 #include "Includes/EXTI_private.h"
 #include "../Config/EXTI_config.h"
 
+// Callback functions Pointers
+void (*EXTI0_pfCallBack)(void) = NULL;
+void (*EXTI1_pfCallBack)(void) = NULL;
+void (*EXTI2_pfCallBack)(void) = NULL;
+void (*EXTI3_pfCallBack)(void) = NULL;
+void (*EXTI4_pfCallBack)(void) = NULL;
 
 ES_t EXTI_Init(u8 Copy_u8Line , u8 Copy_u8Mode){
     ES_t Local_enumState = ES_OK;
@@ -42,3 +48,52 @@ ES_t EXTI_SoftwareTrigger(u8 Copy_u8Line){
 }
 
 
+void EXTI0_SetCallBack(void (*Local_FuncPTR)(void)){
+    EXTI0_pfCallBack = Local_FuncPTR;
+}
+
+
+void EXTI0_IRQHandler(void){
+    EXTI0_pfCallBack();
+    SET_BIT(EXTI->PR,0);
+}
+
+void EXTI1_SetCallBack(void (*Local_FuncPTR)(void)){
+    EXTI1_pfCallBack = Local_FuncPTR;
+}
+
+
+void EXTI1_IRQHandler(void){
+    EXTI1_pfCallBack();
+    SET_BIT(EXTI->PR,1);
+}
+
+void EXTI2_SetCallBack(void (*Local_FuncPTR)(void)){
+    EXTI2_pfCallBack = Local_FuncPTR;
+}
+
+
+void EXTI2_IRQHandler(void){
+    EXTI2_pfCallBack();
+    SET_BIT(EXTI->PR,2);
+}
+
+void EXTI3_SetCallBack(void (*Local_FuncPTR)(void)){
+    EXTI3_pfCallBack = Local_FuncPTR;
+}
+
+
+void EXTI3_IRQHandler(void){
+    EXTI3_pfCallBack();
+    SET_BIT(EXTI->PR,3);
+}
+
+void EXTI4_SetCallBack(void (*Local_FuncPTR)(void)){
+    EXTI4_pfCallBack = Local_FuncPTR;
+}
+
+
+void EXTI4_IRQHandler(void){
+    EXTI4_pfCallBack();
+    SET_BIT(EXTI->PR,4);
+}
