@@ -17,6 +17,12 @@ int main(){
 	u8 value = 0;
 	RCC_Init();
 	RCC_EnablePeripheralClock(RCC_APB2, RCC_IOPA );
+	//Set Priorities
+	NVIC_SetIntPriority(NVIC_EXTI0,0,0);
+	NVIC_SetIntPriority(NVIC_EXTI1,1,0);
+	NVIC_SetIntPriority(NVIC_EXTI2,0,0);
+	NVIC_SetIntPriority(NVIC_EXTI3,0,0);
+	NVIC_SetIntPriority(NVIC_EXTI4,0,0);
 	//Enable NVIC For EXTI 0->4
 	NVIC_EnableInterrupt(NVIC_EXTI0);
 	NVIC_EnableInterrupt(NVIC_EXTI1);
@@ -29,30 +35,17 @@ int main(){
 	AFIO_SetEXTIConfig(LINE2 , EXTI_PC);
 	AFIO_SetEXTIConfig(LINE3 , EXTI_PA);
 	AFIO_SetEXTIConfig(LINE4 , EXTI_PC);
-	//Set All As Rising Edge
-	EXTI_Init(LINE0,RISING);
-	EXTI_Init(LINE1,RISING);
-	EXTI_Init(LINE2,RISING);
-	EXTI_Init(LINE3,RISING);
-	EXTI_Init(LINE4,RISING);
-	//Un mask the EXTI
-	EXTI_EnableLine(LINE0);
-	EXTI_EnableLine(LINE1);
-	EXTI_EnableLine(LINE2);
-	EXTI_EnableLine(LINE3);
-	EXTI_EnableLine(LINE4);
+
+
 	//Set CallBackFunctions
 	EXTI0_SetCallBack(&JustTest0);
 	EXTI1_SetCallBack(&JustTest1);
 	EXTI2_SetCallBack(&JustTest2);
 	EXTI3_SetCallBack(&JustTest3);
 	EXTI4_SetCallBack(&JustTest4);
-	//Software Trigger
-	EXTI_SoftwareTrigger(LINE0);
-	EXTI_SoftwareTrigger(LINE1);
-	EXTI_SoftwareTrigger(LINE2);
-	EXTI_SoftwareTrigger(LINE3);
-	EXTI_SoftwareTrigger(LINE4);
+		// Set Pending Flags
+	NVIC_SetPendingFlag(NVIC_EXTI1);
+
 	while(1);
 
 	return 0;
@@ -62,6 +55,7 @@ void JustTest0(void){
 }
 void JustTest1(void){
 	GPIO_SetPinMode(GPIO_PORTA,GPIO_PIN1,GPIO_OUTPUT_2MHZ_PP);
+	NVIC_SetPendingFlag(NVIC_EXTI0);
 }
 void JustTest2(void){
 	GPIO_SetPinMode(GPIO_PORTA,GPIO_PIN2,GPIO_OUTPUT_2MHZ_PP);

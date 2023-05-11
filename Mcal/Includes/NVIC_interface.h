@@ -77,19 +77,15 @@ typedef enum{
     NVIC_DMA2_Channel4_5 = 59
 }NVIC_InterruptNumber_t;
 
-#define GROUP3      0x5FA0300
-#define GROUP4      0x5FA0400
-#define GROUP5      0x5FA0500
-#define GROUP6      0x5FA0600
-#define GROUP7      0x5FA0700
 
 
+ES_t NVIC_Init(void);
 ES_t NVIC_EnableInterrupt(u8 Copy_u8InterruptNumber);
 ES_t NVIC_DisableInterrupt(u8 Copy_u8InterruptNumber);
 ES_t NVIC_SetPendingFlag(u8 Copy_u8InterruptNumber);
 ES_t NVIC_ClearPendingFlag(u8 Copy_u8InterruptNumber);
 ES_t NVIC_GetActiveFlag(u8 Copy_u8InterruptNumber,u8 *Copy_pu8ActiveFlag);
-ES_t NVIC_SetIntPriority(s8 Copy_s8InterruptNumber,u8 Copy_u8GroupPriority,u8 Copy_u8SubPriority,u32 Copy_u32Group);
+ES_t NVIC_SetIntPriority(s8 Copy_s8InterruptNumber,u8 Copy_u8GroupPriority,u8 Copy_u8SubPriority);
 
 
 

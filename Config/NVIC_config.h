@@ -8,7 +8,7 @@
 
 
 
-
+#define NVIC_Priority_Grouping  NVIC_4_GROUP_4_SUB
 
 
 

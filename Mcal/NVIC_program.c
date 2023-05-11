@@ -11,6 +11,11 @@
 #include "Includes/NVIC_private.h"
 #include "../Config/NVIC_config.h"
 
+ES_t NVIC_Init(void){
+    SCB->AIRCR = NVIC_Priority_Grouping;
+	return ES_OK;
+}
+
 ES_t NVIC_EnableInterrupt(u8 Copy_u8InterruptNumber){
     ES_t Local_enumState = ES_NOK;
     if(Copy_u8InterruptNumber >=0 && Copy_u8InterruptNumber <=32){
@@ -94,10 +99,10 @@ ES_t NVIC_GetActiveFlag(u8 Copy_u8InterruptNumber,u8 *Copy_pu8ActiveFlag){
     return Local_enumState;
 }
 
-
-ES_t NVIC_SetIntPriority(s8 Copy_s8InterruptNumber,u8 Copy_u8GroupPriority,u8 Copy_u8SubPriority,u32 Copy_u32Group){
+    //TODO : add conditions for wrong inputs of GROUP and SUB priority
+ES_t NVIC_SetIntPriority(s8 Copy_s8InterruptNumber,u8 Copy_u8GroupPriority,u8 Copy_u8SubPriority){
     ES_t Local_enumState = ES_NOK;
-    u8 Local_u8Priority = Copy_u8GroupPriority|Copy_s8InterruptNumber<<((Copy_u32Group - 0x05FA0300)/256);
+    u8 Local_u8Priority = Copy_u8SubPriority|Copy_u8GroupPriority<<((NVIC_Priority_Grouping - 0x05FA0300)/256);
     /*  For internal Peripheral */
     //TODO: Test the software priority for internal peripherals
     if(Copy_s8InterruptNumber < 0 && Copy_s8InterruptNumber >=-6){
@@ -122,6 +127,6 @@ ES_t NVIC_SetIntPriority(s8 Copy_s8InterruptNumber,u8 Copy_u8GroupPriority,u8 Co
     else{
         Local_enumState = ES_OUT_OF_RANGE;
     }
-    SCB->AIRCR = Copy_u32Group;
+    SCB->AIRCR = NVIC_Priority_Grouping;
 	return Local_enumState;
 }
