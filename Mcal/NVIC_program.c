@@ -106,15 +106,15 @@ ES_t NVIC_SetIntPriority(s8 Copy_s8InterruptNumber,u8 Copy_u8GroupPriority,u8 Co
     /*  For internal Peripheral */
     //TODO: Test the software priority for internal peripherals
     if(Copy_s8InterruptNumber < 0 && Copy_s8InterruptNumber >=-6){
-        if(Copy_s8InterruptNumber == MEMORY_MANAGE || Copy_s8InterruptNumber == BUS_FAULT || Copy_s8InterruptNumber == USAGE_FAULT){
+        if(Copy_s8InterruptNumber == NVIC_MEMORY_MANAGE || Copy_s8InterruptNumber == NVIC_BUS_FAULT || Copy_s8InterruptNumber == NVIC_USAGE_FAULT){
             Copy_s8InterruptNumber += 3;
             SCB->SHPR1 = Local_u8Priority << (8 * Copy_s8InterruptNumber + 4); 
         }
-        else if(Copy_s8InterruptNumber == SV_CALL){
+        else if(Copy_s8InterruptNumber == NVIC_SV_CALL){
             Copy_s8InterruptNumber += 7;
             SCB->SHPR2 = Local_u8Priority << (8 * Copy_s8InterruptNumber + 4); 
         }
-        else if(Copy_s8InterruptNumber == SYSTICK || Copy_s8InterruptNumber == PEND_SV){
+        else if(Copy_s8InterruptNumber == NVIC_SYSTICK || Copy_s8InterruptNumber == NVIC_PEND_SV){
             Copy_s8InterruptNumber += 8;
             SCB->SHPR3 = Local_u8Priority << (8 * Copy_s8InterruptNumber + 4); 
         }

@@ -1,20 +1,14 @@
 /*******************************************************************/
 /*  Author : Mohammed Gaafar                                       */
-/*  Date : 4 / 5 / 2023                                            */
+/*  Date : 11 / 5 / 2023                                            */
 /*  Version : V1.0                                                 */
 /*******************************************************************/
-#ifndef _RCC_CONFIG_H_
-#define _RCC_CONFIG_H_
-
-#define RCC_CLOCK_TYPE      RCC_HSE_CRYSTAL
-
-#define PLL_SOURCE          RCC_PLL_HSE
-
-#define PLL_MUL_FACTOR      PLL_MUL_2
-
-#define RCC_SECURITY_SYSTEM RCC_CSS_DISABLE
+#ifndef _SYSTICK_CONFIG_H_
+#define _SYSTICK_CONFIG_H_
 
 
+
+#define STK_CLK_SOURCE      STK_AHB_BY_8
 
 
 

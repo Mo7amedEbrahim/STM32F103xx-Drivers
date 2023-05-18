@@ -6,14 +6,14 @@
 #ifndef NVIC_INTERFACE_H
 #define NVIC_INTERFACE_H
 //Internal Interrupts
-#define PEND_SV        -6
-#define SYSTICK        -5
+#define NVIC_PEND_SV        -6
+#define NVIC_SYSTICK        -5
 ////////////////////////////
-#define SV_CALL        -4
+#define NVIC_SV_CALL        -4
 /////////////////////////
-#define MEMORY_MANAGE  -3
-#define BUS_FAULT      -2
-#define USAGE_FAULT    -1
+#define NVIC_MEMORY_MANAGE  -3
+#define NVIC_BUS_FAULT      -2
+#define NVIC_USAGE_FAULT    -1
 typedef enum{
     NVIC_WWDG = 0,
     NVIC_PVD = 1,

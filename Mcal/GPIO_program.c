@@ -14,7 +14,7 @@
 #include "../Config/GPIO_config.h"
 
 /*  Function definitions  */
-ES_t GPIO_SetPinMode(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8mode){
+ES_t GPIO_SetPinMode(GPIO_PORT_t port, u8 pin, u8 Copy_u8mode){
     ES_t Local_enumState = ES_NOK;
     switch(port){
         case GPIO_PORTA:
@@ -30,7 +30,7 @@ ES_t GPIO_SetPinMode(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8mode){
                 //High Pins
                 pin = pin-8;
                 //Mask CNF and MODE Bits
-                GPIOA->CRL &= ~(0b1111 << (pin * 4));
+                GPIOA->CRH &= ~(0b1111 << (pin * 4));
                 //Choose Mode
                 GPIOA->CRH |= Copy_u8mode << (pin * 4);
                 Local_enumState = ES_OK;
@@ -43,7 +43,7 @@ ES_t GPIO_SetPinMode(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8mode){
             if(pin <= 7 && pin >= 0){
                 //Low pins
                 //Mask CNF and MODE Bits
-                GPIOA->CRL &= ~(0b1111 << (pin * 4));
+                GPIOB->CRL &= ~(0b1111 << (pin * 4));
                 //Choose Mode
                 GPIOB->CRL |= Copy_u8mode << (pin * 4);
                 Local_enumState = ES_OK;
@@ -52,7 +52,7 @@ ES_t GPIO_SetPinMode(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8mode){
                 //High Pins
                 pin = pin-8;
                 //Mask CNF and MODE Bits
-                GPIOA->CRL &= ~(0b1111 << (pin * 4));
+                GPIOB->CRH &= ~(0b1111 << (pin * 4));
                 //Choose Mode
                 GPIOB->CRH |= Copy_u8mode << (pin * 4);
                 Local_enumState = ES_OK;
@@ -65,7 +65,7 @@ ES_t GPIO_SetPinMode(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8mode){
             if(pin <= 7 && pin >= 0){
                 //Low pins
                 //Mask CNF and MODE Bits
-                GPIOA->CRL &= ~(0b1111 << (pin * 4));
+                GPIOC->CRL &= ~(0b1111 << (pin * 4));
                 //Choose Mode
                 GPIOC->CRL |= Copy_u8mode << (pin * 4);
                 Local_enumState = ES_OK;
@@ -74,7 +74,7 @@ ES_t GPIO_SetPinMode(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8mode){
                 //High Pins
                 pin = pin-8;
                 //Mask CNF and MODE Bits
-                GPIOA->CRL &= ~(0b1111 << (pin * 4));
+                GPIOC->CRH &= ~(0b1111 << (pin * 4));
                 //Choose Mode
                 GPIOC->CRH |= Copy_u8mode << (pin * 4);
                 Local_enumState = ES_OK;
@@ -89,7 +89,7 @@ ES_t GPIO_SetPinMode(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8mode){
     return Local_enumState;
 }
 
-ES_t GPIO_SetPinValue(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8value){
+ES_t GPIO_SetPinValue(GPIO_PORT_t port, u8 pin, u8 Copy_u8value){
     ES_t Local_enumState = ES_NOK;
     switch(port){
         case GPIO_PORTA:
@@ -141,7 +141,7 @@ ES_t GPIO_SetPinValue(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 Copy_u8value){
     return Local_enumState;
 }
 
-ES_t GPIO_GetPinValue(GPIO_PORT_t port, GPIO_LOW_PINS_t pin, u8 *Copy_pu8value){
+ES_t GPIO_GetPinValue(GPIO_PORT_t port, u8 pin, u8 *Copy_pu8value){
     ES_t Local_enumState = ES_NOK;
     switch(port){
         case GPIO_PORTA:
@@ -209,18 +209,22 @@ ES_t GPIO_SetHalfPortValue(GPIO_HALF_PORT_t port, u8 Copy_u8value){
     u8 Local_u8Counter = 0;
     switch(port){
         case GPIO_PORTA_LOW:
+        GPIOA->ODR &= 0xFF00;
         GPIOA->ODR |= Copy_u8value & 0x00FF;
         Local_enumState = ES_OK;
         break;
         case GPIO_PORTA_HIGH:
+        GPIOA->ODR &= 0x00FF;
         GPIOA->ODR = (Copy_u8value << 8) & 0xFF00;
         Local_enumState = ES_OK;
         break;
         case GPIO_PORTB_LOW:
+        GPIOB->ODR &= 0xFF00;
         GPIOB->ODR = Copy_u8value & 0x00FF;
         Local_enumState = ES_OK;
         break;
         case GPIO_PORTB_HIGH:
+        GPIOB->ODR &= 0x00FF;
         GPIOB->ODR = (Copy_u8value << 8) & 0xFF00;
         Local_enumState = ES_OK;
         break;
@@ -232,7 +236,7 @@ ES_t GPIO_SetHalfPortValue(GPIO_HALF_PORT_t port, u8 Copy_u8value){
 }
 
 
-ES_t GPIO_LockPin(GPIO_PORT_t port, GPIO_LOW_PINS_t pin){
+ES_t GPIO_LockPin(GPIO_PORT_t port, GPIO_PINS_t pin){
     ES_t Local_enumState = ES_NOK;
     switch(port){
         case GPIO_PORTA:

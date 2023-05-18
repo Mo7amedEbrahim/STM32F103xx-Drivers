@@ -76,6 +76,7 @@ typedef struct{
 #define SCB ((volatile SCB_Type *) 0xE000ED00 )
 
 /**********************************************/
+/*  External Interrupts Registers*/
 typedef struct{
     volatile u32 IMR;
     volatile u32 EMR;
@@ -86,6 +87,17 @@ typedef struct{
 }EXTI_t;
 #define EXTI ((EXTI_t *)(0x40010400))
 
+/**********************************************/
+/*  System Tick Registers   */
+typedef struct{
+    volatile u32 CTRL;
+    volatile u32 LOAD;
+    volatile u32 VAL;
+    volatile u32 CALIB;
+}SYSTICK_t;
+
+#define SYSTICK ((volatile SYSTICK_t *) 0xE000E010)
+/**********************************************/
 
 
 

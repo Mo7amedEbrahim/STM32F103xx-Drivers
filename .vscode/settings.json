@@ -10,6 +10,8 @@
         "sevenseg.h": "c",
         "exti_config.h": "c",
         "afio_config.h": "c",
-        "afio_interface.h": "c"
+        "afio_interface.h": "c",
+        "memory_map.h": "c",
+        "stk_interface.h": "c"
     }
 }
