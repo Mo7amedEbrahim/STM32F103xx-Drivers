@@ -15,7 +15,8 @@
 
 
 
-
+#define STK_SINGLE_INTERVAL     0
+#define STK_MULTI_INTERVAL      1
 
 
 

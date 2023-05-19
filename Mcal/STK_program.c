@@ -12,7 +12,7 @@
 #include "../Config/STK_config.h"
 
 void (*STK_pfCallBack)(void) = NULL;
-
+u8 STK_ModeOfInterval = STK_MULTI_INTERVAL;
 ES_t STK_Init(void){
     ES_t Local_enumState = ES_NOK;
     //Select Clock Source
@@ -21,21 +21,72 @@ ES_t STK_Init(void){
 #elif STK_CLK_SOURCE == STK_AHB_BY_8
     CLR_BIT(SYSTICK->CTRL,2);
 #endif
-    //Enable SYS Tick Interrupt
-    SET_BIT(SYSTICK->CTRL,1);
+    //Disable SYS Tick Interrupt
+    CLR_BIT(SYSTICK->CTRL,1);
     //Stop Sys Tick;
     CLR_BIT(SYSTICK->CTRL,0);
     Local_enumState = ES_OK;
     return Local_enumState;
 }
-ES_t STK_Start(u32 Copy_u32PreloadValue){
+
+ES_t STK_StartBusyWait(u32 Copy_u32Tics){
     ES_t Local_enumState = ES_NOK;
-    //Set the Preload Value
-    SYSTICK->LOAD = Copy_u32PreloadValue - 1;
-    //Clear VAL register
-    SYSTICK->VAL = 0;
-    //Start the timer
+    //Load ticks to LOAD Register
+    SYSTICK->LOAD = Copy_u32Tics;
+    //Start timer
     SET_BIT(SYSTICK->CTRL,0);
+    //Wait untill underflow
+    while(!GET_BIT(SYSTICK->CTRL,16));
+    //Stop timer
+    CLR_BIT(SYSTICK->CTRL,0);
+    SYSTICK->LOAD = 0;
+    SYSTICK->VAL = 0;
+    Local_enumState = ES_OK;
+    return Local_enumState;
+}
+
+ES_t STK_StartIntervalSingle(u32 Copy_u32Tics, void(*Copy_pf)(void) ){
+    ES_t Local_enumState = ES_NOK;
+    SYSTICK->LOAD = Copy_u32Tics;
+    STK_pfCallBack = Copy_pf;
+    SET_BIT(SYSTICK->CTRL,1);
+    STK_ModeOfInterval = STK_SINGLE_INTERVAL;
+    SET_BIT(SYSTICK->CTRL,0);
+    Local_enumState = ES_OK;
+    return Local_enumState;
+}
+ES_t STK_StartIntervalPeriodic(u32 Copy_u32Tics, void(*Copy_pf)(void) ){
+    ES_t Local_enumState = ES_NOK;
+    SYSTICK->LOAD = Copy_u32Tics;
+    STK_pfCallBack = Copy_pf;
+    SET_BIT(SYSTICK->CTRL,1);
+    STK_ModeOfInterval = STK_MULTI_INTERVAL;
+    SET_BIT(SYSTICK->CTRL,0);
+    Local_enumState = ES_OK;
+    return Local_enumState;
+}
+
+ES_t STK_StopInterval(void){
+    ES_t Local_enumState = ES_NOK;
+    //Disable SYS Tick Interrupt
+    CLR_BIT(SYSTICK->CTRL,1);
+    //Stop timer
+    CLR_BIT(SYSTICK->CTRL,0);
+    SYSTICK->LOAD = 0;
+    SYSTICK->VAL = 0;
+    Local_enumState = ES_OK;
+    return Local_enumState;
+}
+
+ES_t STK_GetElapsedTime(u32 *Copy_pu32Ticks){
+    ES_t Local_enumState = ES_NOK;
+    *Copy_pu32Ticks = SYSTICK->LOAD - SYSTICK->VAL ;
+    Local_enumState = ES_OK;
+    return Local_enumState;
+}
+ES_t STK_GetRemainingTime(u32 *Copy_pu32Ticks){
+    ES_t Local_enumState = ES_NOK;
+    *Copy_pu32Ticks = SYSTICK->VAL ;
     Local_enumState = ES_OK;
     return Local_enumState;
 }
@@ -62,7 +113,7 @@ ES_t STK_SetCallBack(void (*Local_FuncPTR)(void)){
 ES_t Delay(u32 Copy_u32TimeInMilliSeconds){
     ES_t Local_enumState = ES_NOK;
     if(Copy_u32TimeInMilliSeconds <= 16777){
-        STK_Start(Copy_u32TimeInMilliSeconds * 1000);
+        STK_StartBusyWait(Copy_u32TimeInMilliSeconds * 1000);
         while(GET_BIT(SYSTICK->CTRL,16) == 0);
         Local_enumState = ES_OK;
     }
@@ -77,6 +128,14 @@ void SysTick_Handler(void){
         //Do Nothing
     }
     else{
+        if(STK_ModeOfInterval == STK_SINGLE_INTERVAL){
+            //Disable SYS Tick Interrupt
+            CLR_BIT(SYSTICK->CTRL,1);
+            //Stop timer
+            CLR_BIT(SYSTICK->CTRL,0);
+            SYSTICK->LOAD = 0;
+            SYSTICK->VAL = 0;
+        }
         STK_pfCallBack();
         //Clear Flag
         GET_BIT(SYSTICK->CTRL,16);

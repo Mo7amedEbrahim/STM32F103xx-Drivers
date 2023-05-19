@@ -11,21 +11,30 @@
 #include "../Hal/Includes/SevenSeg.h"
 
 
+void test(void){
+	static u8 count = 0;
+	count++;
+	if (count == 1){
+		GPIO_SetPinValue(GPIO_PORTA,GPIO_PIN0,LOW);
+	}
+	else if(count == 2){
+		GPIO_SetPinValue(GPIO_PORTA,GPIO_PIN0,HIGH);
+		count = 0;
+	}
+}
+
 int main(){
 	u8 i=1;
 	u8 value = 1;
+	/*	Initializing Clocks	*/
 	RCC_Init();
-	RCC_EnablePeripheralClock(RCC_APB2, RCC_IOPB );
-	
-	GPIO_SetPinMode(GPIO_PORTB,GPIO_PIN2,GPIO_OUTPUT_10MHZ_PP);
-	GPIO_LockPin(GPIO_PORTB,GPIO_PIN2);
-	GPIO_SetPinMode(GPIO_PORTB,GPIO_PIN2,GPIO_OUTPUT_10MHZ_OD);
-
-	
-	
+	RCC_EnablePeripheralClock(RCC_APB2, RCC_IOPA );
+	STK_Init();
+	GPIO_SetPinMode(GPIO_PORTA,GPIO_PIN0,GPIO_OUTPUT_2MHZ_PP);
+	GPIO_SetPinValue(GPIO_PORTA,GPIO_PIN0,HIGH);
+	STK_StartIntervalPeriodic(1000000,&test);
 	while(1){
 
 	}
 	return 0;
 }
-

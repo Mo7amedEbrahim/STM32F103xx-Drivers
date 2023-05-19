@@ -16,6 +16,7 @@ static u8 SevenSegAnode[10] = {0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90
 ES_t SevenSeg_Init(GPIO_HALF_PORT_t port){
     ES_t Local_enumState = ES_NOK;
     GPIO_SetHalfPortMode(port, GPIO_OUTPUT_2MHZ_PP);
+	GPIO_SetHalfPortValue(port,0xFF);
     Local_enumState = ES_OK;
     return Local_enumState;
 }
