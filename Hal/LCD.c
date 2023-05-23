@@ -141,6 +141,13 @@ ES_t LCD_WriteNumber4Bit(s32 Number){
 	return Local_enuErrorstate;
 }
 
+ES_t LCD_Clear4Bit(void){
+    ES_t Local_enuErrorstate = ES_NOK;
+    LCD_WriteCommand4Bit(0x01);
+    Local_enuErrorstate = ES_OK;
+    return Local_enuErrorstate;
+}
+
 
 static void SendEnablePulse(void){
     // Set Enable to HIGH

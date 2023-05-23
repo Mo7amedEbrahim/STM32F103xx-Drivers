@@ -20,6 +20,8 @@ ES_t LCD_GoToXY4Bit(u8 X_Pos,u8 Y_Pos);
 
 ES_t LCD_WriteNumber4Bit(s32 Number);
 
+ES_t LCD_Clear4Bit(void);
+
 
 
 
