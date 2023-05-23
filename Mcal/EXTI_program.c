@@ -26,6 +26,7 @@ ES_t EXTI_Init(u8 Copy_u8Line , u8 Copy_u8Mode){
         case ON_CHANGE: SET_BIT(EXTI->RTSR,Copy_u8Line);    SET_BIT(EXTI->FTSR,Copy_u8Line);  break;
         default: Local_enumState = ES_OUT_OF_RANGE;         break;
     }
+    SET_BIT(EXTI->IMR, Copy_u8Line);
     return Local_enumState;
 }
 ES_t EXTI_EnableLine(u8 Copy_u8Line){

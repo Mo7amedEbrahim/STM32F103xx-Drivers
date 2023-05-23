@@ -114,7 +114,6 @@ ES_t Delay(u32 Copy_u32TimeInMilliSeconds){
     ES_t Local_enumState = ES_NOK;
     if(Copy_u32TimeInMilliSeconds <= 16777){
         STK_StartBusyWait(Copy_u32TimeInMilliSeconds * 1000);
-        while(GET_BIT(SYSTICK->CTRL,16) == 0);
         Local_enumState = ES_OK;
     }
     else{
