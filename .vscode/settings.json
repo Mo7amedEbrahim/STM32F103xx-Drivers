@@ -13,6 +13,8 @@
         "afio_interface.h": "c",
         "memory_map.h": "c",
         "stk_interface.h": "c",
-        "stk_private.h": "c"
+        "stk_private.h": "c",
+        "dma_config.h": "c",
+        "dma_private.h": "c"
     }
 }

@@ -98,17 +98,21 @@ typedef struct{
 
 #define SYSTICK ((volatile SYSTICK_t *) 0xE000E010)
 /**********************************************/
+/*  DMA Registers   */
+typedef struct{
+    volatile u32 DMA_CCR;
+    volatile u32 DMA_CNDTR;
+    volatile u32 DMA_CPAR;
+    volatile u32 DMA_CMAR;
+    u32 Reserved;
+}DMA_Channels_t;
+typedef struct{
+    volatile u32 DMA_ISR;
+    volatile u32 DMA_IFCR;
+    DMA_Channels_t Channel[7];
+}DMA_t;
 
-
-
-
-
-
-
-
-
-
-
+#define DMA ((volatile DMA_t *) 0x40020000)
 
 
 
