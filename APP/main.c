@@ -12,43 +12,42 @@
 #include "../Hal/Includes/UltraSonic.h"
 #include "../Hal/Includes/SevenSeg.h"
 #include "../Hal//Includes/LCD.h"
-
-DMA_Config_t Config = {
-	.DMA_Channel = DMA_CHANNEL_7,
-	.DMA_Direction = DMA_DIR_MEM_TO_MEM,
-	.DMA_MemSize = DMA_MEMSIZE_8BITS,
-	.DMA_MINC = DMA_MINC_ENABLE,
-	.DMA_Mode = DMA_MODE_NORMAL,
-	.DMA_PerSize = DMA_PERSIZE_8BITS,
-	.DMA_PINC = DMA_PINC_ENABLE,
-};
-u8 sourceData[3] = {5,2,3};
-u8 destinationData[3] = {0};
+u16 Sum(u8 Num1,u8 Num2,u8 Num3,u8 Num4,u8 Num5,u8 Num6);
+__attribute__((naked)) void Change_SP_toPSP(void){
+	//Symbolic Names
+	__asm volatile (".equ MSP_STACK_START, 0x200006A0");
+	__asm volatile (".equ MSP_STACK_END , (MSP_STACK_START - 512)");
+	__asm volatile (".equ PSP_STACK_START, MSP_STACK_END");
+	//Set PSP
+	__asm volatile ("LDR R0, =PSP_STACK_START");
+	__asm volatile ("MSR PSP, R0");
+	//Set SPSEL
+	__asm volatile ("MOV R0, #0x02");
+	__asm volatile ("MSR CONTROL, R0");
+	//Context Restore
+	__asm volatile ("BX LR");
+}
 
 int main(){
+	volatile int a =5;
+	volatile int b = 7;
 	RCC_Init();
-	RCC_EnablePeripheralClock(RCC_AHB,RCC_DMA1);
-	NVIC_Init();
-	LCD_4BitInitialize();
-	DMA_VidSetConfiguration(&Config);
-	
-	//DMA_VidSetCallBack(&Test,DMA_CHANNEL_7);
-	NVIC_EnableInterrupt(NVIC_DMA1_Channel7);
-	
 	STK_Init();
-	
-
-	DMA_VidStartSynch(DMA_CHANNEL_7,(u32 *)sourceData, (u32 *)destinationData, 3);
+	LCD_4BitInitialize();
 	LCD_Clear4Bit();
-	LCD_WriteNumber4Bit(destinationData[0]);
-	LCD_WriteString4Bit("  ");
-	LCD_WriteNumber4Bit(destinationData[1]);
-	LCD_WriteString4Bit("  ");
-	LCD_WriteNumber4Bit(destinationData[2]);
-	LCD_WriteString4Bit("  ");
-
+	LCD_GoToXY4Bit(0,0);
+	LCD_WriteString4Bit("Distance : ");
+	u16 sum = Sum(5,6,7,8,9,10);
+	sum++;
 	while(1){
 
 	}
 	return 0;
+}
+
+u16 Sum(u8 Num1,u8 Num2,u8 Num3,u8 Num4,u8 Num5,u8 Num6){
+	u16 sum = 0;
+	u8 temp1 = 22,temp2 = 11,temp3 = 55;
+	sum = Num1+Num2+Num3+Num4+temp1+temp2+temp3;
+	return sum;
 }
